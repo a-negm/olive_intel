@@ -79,9 +79,9 @@ The Cloudflare Worker sits between the React app and the Anthropic API — keepi
 | Brent crude | FRED / EIA | `DCOILBRENTEU` |
 | Natural gas | FRED / EIA | `DHHNGSP` |
 | Fertilizer index | World Bank Pink Sheet | Urea / DAP |
-| Weather / drought | Open-Meteo | Free API |
+| Weather / drought | Open-Meteo | Free API — v2 (not yet integrated) |
 
-KPI and chart data in v1 is hardcoded from verified sources (FRED, IOC) as of April 2026. Live FRED API integration is planned for v2.
+KPI and chart data in v1 is hardcoded from verified sources (FRED, IOC) as of April 2026. Weather data is not yet integrated — the grove calculator uses Claude's training knowledge about regional climate conditions rather than live API calls. Live FRED price data and Open-Meteo weather integration are both planned for v2.
 
 ---
 
