@@ -82,8 +82,8 @@ export default function GroveOutput({ status, data }) {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* KPI row — always visible */}
-      <div className="grid grid-cols-3 gap-2 md:gap-4">
+      {/* KPI row — always visible; 2-col on mobile (harvest full-width), 3-col on desktop */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
         <MetricCard
           label="Estimated Yield"
           value={data.yield_range}
@@ -96,11 +96,13 @@ export default function GroveOutput({ status, data }) {
           sub="at current prices"
           accent="text-green-400"
         />
-        <MetricCard
-          label="Harvest Window"
-          value={data.harvest_window}
-          sub={data.early_harvest_note ?? undefined}
-        />
+        <div className="col-span-2 md:col-span-1">
+          <MetricCard
+            label="Harvest Window"
+            value={data.harvest_window}
+            sub={data.early_harvest_note ?? undefined}
+          />
+        </div>
       </div>
 
       {/* Mobile toggle */}
