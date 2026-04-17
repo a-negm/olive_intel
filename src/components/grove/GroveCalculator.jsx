@@ -106,7 +106,7 @@ Current olive oil price: $${CURRENT_PRICE_USD_T.toLocaleString()}/metric ton`;
   }
 
   return (
-    <div className="px-6 pb-10">
+    <div className="px-3 md:px-6 pb-10">
       {/* Section header */}
       <div className="flex items-center gap-3 mb-6">
         <span className="block w-2 h-2 rounded-full bg-amber-500" />
@@ -117,9 +117,9 @@ Current olive oil price: $${CURRENT_PRICE_USD_T.toLocaleString()}/metric ton`;
       </div>
 
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-2 divide-x divide-zinc-800">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:divide-x divide-zinc-800">
           {/* Left — inputs */}
-          <div className="p-6 flex flex-col gap-6">
+          <div className="p-4 md:p-6 flex flex-col gap-6">
             <GroveInputs inputs={inputs} onChange={setInputs} />
 
             <button
@@ -134,7 +134,7 @@ Current olive oil price: $${CURRENT_PRICE_USD_T.toLocaleString()}/metric ton`;
           </div>
 
           {/* Right — output */}
-          <div className="p-6">
+          <div className="p-4 md:p-6 border-t border-zinc-800 md:border-t-0">
             <GroveOutput status={status} data={result} />
           </div>
         </div>

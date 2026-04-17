@@ -1,5 +1,7 @@
 // Claude-generated output: yield range, harvest timing, revenue estimate, input cost flags, narrative paragraph
 
+import { useState } from 'react';
+
 function Skeleton({ className }) {
   return <div className={`rounded-md bg-zinc-800 animate-pulse ${className}`} />;
 }
@@ -56,6 +58,8 @@ function FlagRow({ flags }) {
 }
 
 export default function GroveOutput({ status, data }) {
+  const [expanded, setExpanded] = useState(false);
+
   if (status === 'idle') {
     return (
       <div className="flex items-center justify-center py-14 text-center">
@@ -78,8 +82,8 @@ export default function GroveOutput({ status, data }) {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* KPI row */}
-      <div className="grid grid-cols-3 gap-4">
+      {/* KPI row — always visible */}
+      <div className="grid grid-cols-3 gap-2 md:gap-4">
         <MetricCard
           label="Estimated Yield"
           value={data.yield_range}
@@ -99,26 +103,37 @@ export default function GroveOutput({ status, data }) {
         />
       </div>
 
-      {/* Narrative */}
-      <div className="border-t border-zinc-800 pt-4">
-        <p className="text-zinc-300 text-sm leading-relaxed">{data.narrative}</p>
-      </div>
+      {/* Mobile toggle */}
+      <button
+        className="md:hidden self-start flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-zinc-300 border border-zinc-700 rounded px-3 py-1.5 transition-colors"
+        onClick={() => setExpanded((e) => !e)}
+      >
+        {expanded ? 'Hide analysis ↑' : 'Show full analysis ↓'}
+      </button>
 
-      {/* Input cost flags */}
-      <FlagRow flags={data.input_cost_flags} />
-
-      {/* Allocation breakdown */}
-      {data.allocation_breakdown && (
-        <div className="grid grid-cols-3 gap-2">
-          {data.allocation_breakdown.map((item, i) => (
-            <div key={i} className="flex flex-col gap-0.5 bg-zinc-800/30 rounded-lg px-3 py-2">
-              <span className="text-[10px] font-mono text-zinc-500">{item.label}</span>
-              <span className="text-xs font-mono text-zinc-300">{item.volume}</span>
-              <span className="text-[10px] font-mono text-zinc-500">{item.revenue}</span>
-            </div>
-          ))}
+      {/* Detail section — always on desktop, toggled on mobile */}
+      <div className={`${expanded ? 'flex' : 'hidden'} md:flex flex-col gap-5`}>
+        {/* Narrative */}
+        <div className="border-t border-zinc-800 pt-4">
+          <p className="text-zinc-300 text-sm leading-relaxed">{data.narrative}</p>
         </div>
-      )}
+
+        {/* Input cost flags */}
+        <FlagRow flags={data.input_cost_flags} />
+
+        {/* Allocation breakdown */}
+        {data.allocation_breakdown && (
+          <div className="grid grid-cols-3 gap-2">
+            {data.allocation_breakdown.map((item, i) => (
+              <div key={i} className="flex flex-col gap-0.5 bg-zinc-800/30 rounded-lg px-3 py-2">
+                <span className="text-xs font-mono text-zinc-500">{item.label}</span>
+                <span className="text-xs font-mono text-zinc-300">{item.volume}</span>
+                <span className="text-xs font-mono text-zinc-500">{item.revenue}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

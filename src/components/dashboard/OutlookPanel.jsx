@@ -145,22 +145,23 @@ function SignalColumn({ title, icon, iconClass, items, dotClass }) {
 // ─── Outlook content ──────────────────────────────────────────────────────────
 
 function OutlookContent({ data }) {
-  const styles   = DIRECTION_STYLES[data.direction] ?? DIRECTION_STYLES.NEUTRAL;
-  const confStr  = String(data.confidence ?? 'medium').toLowerCase();
-  const confPct  = CONFIDENCE_PCT[confStr] ?? 55;
+  const [expanded, setExpanded] = useState(false);
+  const styles    = DIRECTION_STYLES[data.direction] ?? DIRECTION_STYLES.NEUTRAL;
+  const confStr   = String(data.confidence ?? 'medium').toLowerCase();
+  const confPct   = CONFIDENCE_PCT[confStr] ?? 55;
   const confLabel = confStr.charAt(0).toUpperCase() + confStr.slice(1);
 
   return (
-    <div className="flex flex-col gap-6 p-6">
-      {/* Direction + confidence */}
+    <div className="flex flex-col gap-6 p-4 md:p-6">
+      {/* Direction + confidence — always visible */}
       <div className="flex items-start gap-6 flex-wrap">
         <span className={`px-4 py-1.5 rounded-lg border font-mono text-xl font-bold tracking-widest ${styles.badge}`}>
           {data.direction}
         </span>
         <div className="flex flex-col gap-1.5 flex-1 min-w-40 justify-center">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wide">Confidence</span>
-            <span className={`text-[11px] font-mono ${styles.accent}`}>{confLabel} · {confPct}%</span>
+            <span className="text-xs font-mono text-zinc-500 uppercase tracking-wide">Confidence</span>
+            <span className={`text-xs font-mono ${styles.accent}`}>{confLabel} · {confPct}%</span>
           </div>
           <div className="h-1.5 w-full rounded-full bg-zinc-800">
             <div className={`h-1.5 rounded-full transition-all ${styles.bar}`} style={{ width: `${confPct}%` }} />
@@ -168,15 +169,26 @@ function OutlookContent({ data }) {
         </div>
       </div>
 
-      {/* Drivers + risks */}
-      <div className="grid grid-cols-2 gap-6">
-        <SignalColumn title="Key Drivers"       icon="↓" iconClass="text-red-400"   items={data.key_drivers} dotClass="bg-zinc-500" />
-        <SignalColumn title="Key Risks to Call" icon="⚠" iconClass="text-amber-500" items={data.key_risks}   dotClass="bg-amber-500/60" />
-      </div>
+      {/* Mobile toggle */}
+      <button
+        className="md:hidden self-start flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-zinc-300 border border-zinc-700 rounded px-3 py-1.5 transition-colors -mt-2"
+        onClick={() => setExpanded((e) => !e)}
+      >
+        {expanded ? 'Hide analysis ↑' : 'Show full analysis ↓'}
+      </button>
 
-      {/* Summary */}
-      <div className="border-t border-zinc-800 pt-5">
-        <p className="text-zinc-300 text-sm leading-relaxed">{data.summary}</p>
+      {/* Detail section — always visible on desktop, toggled on mobile */}
+      <div className={`${expanded ? 'flex' : 'hidden'} md:flex flex-col gap-6`}>
+        {/* Drivers + risks */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <SignalColumn title="Key Drivers"       icon="↓" iconClass="text-red-400"   items={data.key_drivers} dotClass="bg-zinc-500" />
+          <SignalColumn title="Key Risks to Call" icon="⚠" iconClass="text-amber-500" items={data.key_risks}   dotClass="bg-amber-500/60" />
+        </div>
+
+        {/* Summary */}
+        <div className="border-t border-zinc-800 pt-5">
+          <p className="text-zinc-300 text-sm leading-relaxed">{data.summary}</p>
+        </div>
       </div>
     </div>
   );

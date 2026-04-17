@@ -137,7 +137,7 @@ export default function Ticker() {
         {/* ── Sticky label ── */}
         <div className="flex-none flex items-center px-4 gap-2 border-r border-zinc-800 bg-zinc-950 z-10">
           <span className="block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-          <span className="text-amber-500 font-mono text-[10px] font-semibold tracking-[0.18em] uppercase whitespace-nowrap">
+          <span className="text-amber-500 font-mono text-xs md:text-[10px] font-semibold tracking-[0.18em] uppercase whitespace-nowrap">
             Market Signals
           </span>
         </div>

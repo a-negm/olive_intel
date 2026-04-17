@@ -188,11 +188,14 @@ function OutlookCard() {
 
 export default function KPIStrip() {
   return (
-    <div className="w-full px-6 py-4 grid grid-cols-5 gap-3">
+    <div className="w-full px-3 md:px-6 py-4 grid grid-cols-2 md:grid-cols-5 gap-3">
       {KPI_CARDS.map((card) => (
         <KPICard key={card.id} card={card} />
       ))}
-      <OutlookCard />
+      {/* Full width on mobile (spans 2 cols), single col on desktop */}
+      <div className="col-span-2 md:col-span-1">
+        <OutlookCard />
+      </div>
     </div>
   );
 }
