@@ -1,0 +1,16 @@
+# Cloudflare Worker config for the Olive Intel API proxy
+
+name = "olive-intel-worker"
+main = "worker/index.js"
+compatibility_date = "2024-01-01"
+
+# ANTHROPIC_API_KEY must be set as a secret in the Cloudflare dashboard:
+#   npx wrangler secret put ANTHROPIC_API_KEY
+
+[vars]
+# Non-sensitive runtime config goes here (e.g. VITE_WORKER_URL)
+
+[[routes]]
+# TODO: add your Cloudflare Pages domain route once deployed
+# pattern = "olive-intel.pages.dev/api/*"
+# zone_name = "pages.dev"
