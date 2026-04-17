@@ -1,11 +1,8 @@
-// Fetch wrapper for Claude calls — routes to Worker proxy in prod, direct Anthropic API in dev
+// Fetch wrapper for Claude calls — always POSTs to /api/claude
+// Dev: Vite proxy forwards to Anthropic server-side (no CORS, key never in browser)
+// Prod: Cloudflare Worker handles the same path
 
-const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
-const ANTHROPIC_VERSION = '2023-06-01';
 const WORKER_PATH = '/api/claude';
-
-const isDev =
-  import.meta.env.DEV && !!import.meta.env.VITE_ANTHROPIC_API_KEY;
 
 /**
  * Send a request to Claude.
@@ -23,20 +20,12 @@ export async function callClaude({ model, max_tokens, system, messages }) {
   }
 
   const payload = {
-    model: model ?? 'claude-haiku-4-5-20251001',
+    model:      model ?? 'claude-haiku-4-5-20251001',
     max_tokens: max_tokens ?? 1024,
     ...(system !== undefined && { system }),
     messages,
   };
 
-  if (isDev) {
-    return callDirect(payload);
-  }
-
-  return callWorker(payload);
-}
-
-async function callWorker(payload) {
   const res = await fetch(WORKER_PATH, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -47,32 +36,7 @@ async function callWorker(payload) {
 
   if (!res.ok) {
     throw new Error(
-      `Worker error ${res.status}: ${data?.error ?? 'Unknown error'}`
-    );
-  }
-
-  return data;
-}
-
-async function callDirect(payload) {
-  const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
-
-  const res = await fetch(ANTHROPIC_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': ANTHROPIC_VERSION,
-      'anthropic-beta': 'prompt-caching-2024-07-31',
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(
-      `Anthropic API error ${res.status}: ${data?.error?.message ?? JSON.stringify(data)}`
+      `Claude API error ${res.status}: ${data?.error?.message ?? data?.error ?? JSON.stringify(data)}`
     );
   }
 
