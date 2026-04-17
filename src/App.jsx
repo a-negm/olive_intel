@@ -14,6 +14,21 @@ export default function App() {
       {/* Row 1 — Ticker */}
       <Ticker />
 
+      {/* Description banner */}
+      <div className="w-full bg-zinc-900 border-b border-zinc-800 px-6 py-2 flex items-center justify-between">
+        <span className="text-zinc-400 text-xs font-mono">
+          AI-powered olive oil market intelligence · Price direction · Harvest signals · Grove yield calculator
+        </span>
+        <a
+          href="https://github.com/a-negm/olive_intel"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-zinc-600 text-xs font-mono hover:text-zinc-400 transition-colors"
+        >
+          View source ↗
+        </a>
+      </div>
+
       {/* Row 2 — KPI strip */}
       <KPIStrip />
 
