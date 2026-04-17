@@ -29,18 +29,18 @@ export default function App() {
         </a>
       </div>
 
-      {/* Row 2 — KPI strip */}
+      {/* Row 2 — Claude outlook panel */}
+      <div className="px-3 md:px-6 pb-6">
+        <OutlookPanel />
+      </div>
+
+      {/* Row 3 — KPI strip */}
       <KPIStrip />
 
-      {/* Row 3 — Price history full-width on mobile, 2/3 + 1/3 on desktop */}
+      {/* Row 4 — Price history full-width on mobile, 2/3 + 1/3 on desktop */}
       <div className="px-3 md:px-6 pb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-2"><PriceChart /></div>
         <div className="hidden md:block md:col-span-1"><ProductionChart /></div>
-      </div>
-
-      {/* Row 4 — Claude outlook panel */}
-      <div className="px-3 md:px-6 pb-6">
-        <OutlookPanel />
       </div>
 
       {/* Divider */}
