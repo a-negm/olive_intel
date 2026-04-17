@@ -30,7 +30,7 @@ export default function App() {
       </div>
 
       {/* Row 2 — Claude outlook panel */}
-      <div className="px-3 md:px-6 pb-6">
+      <div className="px-3 md:px-6 mt-4">
         <OutlookPanel />
       </div>
 
