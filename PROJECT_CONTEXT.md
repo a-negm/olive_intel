@@ -5,7 +5,7 @@
 
 ## What This Is
 
-A web-based olive oil market intelligence dashboard with a personal grove yield calculator. Built as an AI-native portfolio project by a product designer using Claude as the reasoning layer.
+A web-based olive oil market intelligence dashboard with a personal grove yield calculator. A web-based olive oil market intelligence tool with a personal grove yield calculator.
 
 **Live stack:**
 - React + Vite (frontend)
@@ -24,7 +24,7 @@ A web-based olive oil market intelligence dashboard with a personal grove yield 
 
 The builder was planning to sell olive oil. Set up an online shop, created a brand — then paused end of 2025 to focus on a job search. The 25/26 harvest season they paused into was a paradox: the Peloponnese (Kalamata region) actually had a decent local harvest with 15–20% more blossoms than prior year, yet opening prices dropped to €7.85/kg from €10.20/kg the year before. Good yield, collapsing prices. Without visibility into what was driving that — supply recovery across the Mediterranean, pest damage elsewhere in Greece, global demand shifts — the decision to pause or push forward was essentially a guess. This tool is built to make that decision readable.
 
-This story belongs in the README and is part of the product's identity.
+
 
 ---
 
@@ -135,10 +135,15 @@ Separated from dashboard by a visual divider.
 | EU consumer price index | Eurostat HICP | Free |
 | Market news & events | Olive Oil Times | RSS / manual |
 | Weather / drought context | Open-Meteo API | Free, no key needed |
+| Brent crude oil price | FRED API — series `DCOILBRENTEU` | Free API key |
+| Natural gas spot price | FRED API — series `DHHNGSP` | Free API key |
+| Fertilizer price index | World Bank Pink Sheet | Free, manual |
 
 **FRED API call example:**
 ```
 https://api.stlouisfed.org/fred/series/observations?series_id=POLVOILUSDM&api_key=YOUR_KEY&file_type=json
+https://api.stlouisfed.org/fred/series/observations?series_id=DCOILBRENTEU&api_key=YOUR_KEY&file_type=json
+https://api.stlouisfed.org/fred/series/observations?series_id=DHHNGSP&api_key=YOUR_KEY&file_type=json
 ```
 
 ---
@@ -247,15 +252,6 @@ npx shadcn@latest add card badge slider select tooltip separator progress
 
 ---
 
-## First Session Priorities for Claude Code
-
-1. Scaffold the full component folder structure (empty files with correct names)
-2. Set up `wrangler.toml` for Cloudflare Worker
-3. Build the Worker proxy (`worker/index.js`) — accepts POST from React, forwards to Anthropic API, returns response
-4. Build `claudeProxy.js` in lib — the fetch wrapper React uses to call the Worker
-5. Build `Ticker.jsx` first — it's self-contained and demonstrates the full AI call pattern
-
----
 
 ## What This Tool Is — One Sentence
 
